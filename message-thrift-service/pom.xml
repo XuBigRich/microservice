@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>top.piao888</groupId>
-  <artifactId>user-thrift-service-api</artifactId>
+  <artifactId>message-thrift-service</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>user-thrift-service-api</name>
+  <name>message-thrift-service</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -17,12 +17,8 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
+
   <dependencies>
-    <dependency>
-      <groupId>org.apache.thrift</groupId>
-      <artifactId>libthrift</artifactId>
-      <version>0.11.0</version>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -47,11 +43,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.thrift.tools</groupId>
-          <artifactId>maven-thrift-plugin</artifactId>
-          <version>0.1.11</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>

@@ -1,4 +1,4 @@
-namespace java top.piao888.thrift.user
+namespace java top.piao888.user.thrift.user
 struct UserInfo{
     1:i32 id,
     2:string username,
