@@ -1,6 +1,5 @@
 package top.piao888.user.thrift;
 
-import org.apache.thrift.TBaseProcessor;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;
@@ -9,10 +8,9 @@ import org.apache.thrift.transport.TFastFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import top.piao888.thrift.user.UserService;
+import top.piao888.user.thrift.user.UserService;
 
 import javax.annotation.PostConstruct;
 @Configuration
