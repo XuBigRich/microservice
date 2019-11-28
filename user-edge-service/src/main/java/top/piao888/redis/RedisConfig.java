@@ -26,6 +26,8 @@ public class RedisConfig extends CachingConfigurerSupport {
     private int port;
     @Value("${spring.redis.timeout}")
     private int timeout;
+    @Value("${spring.redis.password}")
+    private String password;
 
     //缓存管理器
     @Bean
@@ -38,11 +40,13 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public JedisConnectionFactory redisConnectionFactory(){
         JedisConnectionFactory factory=new JedisConnectionFactory();
+        factory.setPassword(password);
         factory.setHostName(host);
         factory.setPort(port);
         factory.setTimeout(timeout);
         return factory;
     }
+    @Bean
     public RedisTemplate<String,String> redisTemplate(RedisConnectionFactory factory){
         StringRedisTemplate template=new StringRedisTemplate(factory);
         setSerializer(template);//设置序列化工具

@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.piao888.user.dto.UserDTO;
-import top.piao888.user.redis.RedisClient;
-import top.piao888.user.response.LoginResponse;
-import top.piao888.user.response.Response;
-import top.piao888.user.thrift.ServiceProvider;
+import top.piao888.dto.UserDTO;
+import top.piao888.redis.RedisClient;
+import top.piao888.response.LoginResponse;
+import top.piao888.response.Response;
+import top.piao888.thrift.ServiceProvider;
 import top.piao888.user.thrift.user.UserInfo;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 @Controller
@@ -28,7 +27,7 @@ public class UserController {
     private RedisClient redisClient;
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public Response login(@RequestParam("username")String username,@RequestParam("password")String password){
+    public Response login(@RequestParam("username")String username, @RequestParam("password")String password){
         //1.验证用户名密码
         UserInfo userInfo=null;
         try {
@@ -46,13 +45,13 @@ public class UserController {
         //2.生成token
         String token=getToken();
         //3.缓存用户
-        redisClient.set(token,DTO(userInfo),3600 );
+        redisClient.set(token,DTO(userInfo),1000000 );
         return new LoginResponse(token);
     }
 
     private UserDTO DTO(UserInfo userInfo) {
         UserDTO userDTO=new UserDTO();
-        BeanUtils.copyProperties(userDTO,userInfo);
+        BeanUtils.copyProperties(userInfo,userDTO);
         return userDTO;
     }
 
@@ -76,7 +75,8 @@ public class UserController {
             MessageDigest md5=MessageDigest.getInstance("md5");
             //对 密码进行加密
           byte[] md5Bytes=  md5.digest(password.getBytes("utf-8"));
-            return HexUtils.toHexString(md5Bytes);
+          String result=HexUtils.toHexString(md5Bytes);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             return  null;

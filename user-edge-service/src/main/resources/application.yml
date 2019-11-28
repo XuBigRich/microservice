@@ -1,0 +1,16 @@
+server:
+  port: 8081
+  display-name:  user-edge-service
+
+thrift:
+    user:
+        ip: 127.0.0.1
+        port: 7911
+
+#redis config
+spring:
+  redis:
+    host: 192.168.159.10
+    port: 6379
+    timeout: 30000
+    password: 123456

@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/message-thrift-service-api/pom.xml" />
         <option value="$PROJECT_DIR$/user-thrift-service-api/pom.xml" />
         <option value="$PROJECT_DIR$/user-thrift-service/pom.xml" />
+        <option value="$PROJECT_DIR$/message-thrift-service/pom.xml" />
+        <option value="$PROJECT_DIR$/user-edge-service/pom.xml" />
       </list>
     </option>
   </component>
