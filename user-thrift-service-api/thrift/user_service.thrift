@@ -11,5 +11,4 @@ service UserService{
     UserInfo getUserById(1:i32 id);
     UserInfo getUserByName(1:string username);
     void regiserUser (1:UserInfo u);
-
 }

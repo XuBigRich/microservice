@@ -1,5 +1,6 @@
 package top.piao888.contoller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.thrift.TException;
 import org.apache.tomcat.util.buf.HexUtils;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +26,7 @@ public class UserController {
     private ServiceProvider serviceProvider;
     @Autowired
     private RedisClient redisClient;
+
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public Response login(@RequestParam("username")String username, @RequestParam("password")String password){
@@ -47,6 +49,40 @@ public class UserController {
         //3.缓存用户
         redisClient.set(token,DTO(userInfo),1000000 );
         return new LoginResponse(token);
+    }
+    //发送验证码
+    @RequestMapping(value = "/sendVerifyCode",method = RequestMethod.POST)
+    public Response sendVerifyCode( @RequestParam(value = "email" ,required = false) String email,
+                                     @RequestParam(value = "mobile",required = false)String mobile) throws TException {
+        if(StringUtils.isBlank(mobile)&&StringUtils.isBlank(email)){
+            return Response.MOBILE_OR_EMAIL_REQUIRED;
+        }
+        if(StringUtils.isBlank(mobile)){
+            Random random=new Random();
+            Double a=random.nextDouble();
+            int b= (int) (a*1000);
+            if( serviceProvider.getMessageService().send(email,String.valueOf(b))){
+                return null;
+            }
+            return null;
+        }else{
+            return null;
+        }
+    }
+    //注册
+    public Response register(@RequestParam("username") String username,
+                             @RequestParam("password") String password,
+                             @RequestParam(value = "email" ,required = false) String email,
+                             @RequestParam(value = "mobile",required = false)String mobile,
+                             @RequestParam("verifyCode") String verifyCode){
+        if(StringUtils.isBlank(mobile)&&StringUtils.isBlank(email)){
+            return Response.MOBILE_OR_EMAIL_REQUIRED;
+        }
+        if(StringUtils.isBlank(mobile)){
+            return null;
+        }else{
+            return null;
+        }
     }
 
     private UserDTO DTO(UserInfo userInfo) {
