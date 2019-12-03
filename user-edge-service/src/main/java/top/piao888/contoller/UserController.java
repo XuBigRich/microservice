@@ -52,6 +52,7 @@ public class UserController {
     }
     //发送验证码
     @RequestMapping(value = "/sendVerifyCode",method = RequestMethod.POST)
+    @ResponseBody
     public Response sendVerifyCode( @RequestParam(value = "email" ,required = false) String email,
                                      @RequestParam(value = "mobile",required = false)String mobile) throws TException {
         if(StringUtils.isBlank(mobile)&&StringUtils.isBlank(email)){
@@ -60,13 +61,15 @@ public class UserController {
         if(StringUtils.isBlank(mobile)){
             Random random=new Random();
             Double a=random.nextDouble();
-            int b= (int) (a*1000);
-            if( serviceProvider.getMessageService().send(email,String.valueOf(b))){
-                return null;
+            int code= (int) (a*10000);
+            if( serviceProvider.getMessageService().send(email,String.valueOf(code))){
+                redisClient.set(email,code);
+                return Response.SUCCESS;
+            }else{
+                return Response.SEND_VERIFYCOOD_FAILED;
             }
-            return null;
         }else{
-            return null;
+            return Response.FUNCTION;
         }
     }
     //注册
@@ -79,8 +82,12 @@ public class UserController {
             return Response.MOBILE_OR_EMAIL_REQUIRED;
         }
         if(StringUtils.isBlank(mobile)){
-            return null;
+            return Response.FUNCTION;
         }else{
+           String code= redisClient.get(email);
+           if(!verifyCode.equals(code)){
+
+           }
             return null;
         }
     }

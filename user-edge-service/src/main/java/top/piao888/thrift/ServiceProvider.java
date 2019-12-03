@@ -50,7 +50,7 @@ public class ServiceProvider {
             System.out.println("信息服务发送出现了问题");
             return null;
         }
-        TProtocol protocol=new TBinaryProtocol(socket);
+        TProtocol protocol=new TBinaryProtocol(transport);
         //构造客户端对象
         MessageService.Client client=new MessageService.Client(protocol);
         return client;

@@ -1,8 +1,6 @@
 server:
   port: 7911
   display-name:  user-thrift-service
-aa-bb:
-  a: a
 #数据源配置
 spring:
   datasource:
