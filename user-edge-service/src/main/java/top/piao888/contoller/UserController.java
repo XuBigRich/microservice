@@ -6,11 +6,8 @@ import org.apache.tomcat.util.buf.HexUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import top.piao888.dto.UserDTO;
+import org.springframework.web.bind.annotation.*;
+import top.piao888.user.thrift.user.dto.UserDTO;
 import top.piao888.redis.RedisClient;
 import top.piao888.response.LoginResponse;
 import top.piao888.response.Response;
@@ -73,6 +70,8 @@ public class UserController {
         }
     }
     //注册
+    @PostMapping("/register")
+    @ResponseBody
     public Response register(@RequestParam("username") String username,
                              @RequestParam("password") String password,
                              @RequestParam(value = "email" ,required = false) String email,
@@ -81,15 +80,26 @@ public class UserController {
         if(StringUtils.isBlank(mobile)&&StringUtils.isBlank(email)){
             return Response.MOBILE_OR_EMAIL_REQUIRED;
         }
-        if(StringUtils.isBlank(mobile)){
+        if(!StringUtils.isBlank(mobile)){
             return Response.FUNCTION;
         }else{
-           String code= redisClient.get(email);
+           String code= redisClient.get(email).toString();
            if(!verifyCode.equals(code)){
-
+                return Response.VERIFY_COOD_INVALID;
            }
-            return null;
         }
+        UserInfo userInfo=new UserInfo();
+        userInfo.setUsername(username);
+        userInfo.setPassword(md5(password));
+        userInfo.setEmail(email);
+        userInfo.setMobile(mobile);
+        try {
+            serviceProvider.getUserService().regiserUser(userInfo);
+        } catch (TException e) {
+            e.printStackTrace();
+            return Response.exception(e);
+        }
+        return Response.SUCCESS;
     }
 
     private UserDTO DTO(UserInfo userInfo) {

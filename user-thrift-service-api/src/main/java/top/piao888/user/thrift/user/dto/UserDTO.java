@@ -1,4 +1,4 @@
-package top.piao888.dto;
+package top.piao888.user.thrift.user.dto;
 
 import lombok.Data;
 
