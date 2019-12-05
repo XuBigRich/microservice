@@ -1,15 +1,11 @@
 package top.piao888.service;
 
 import com.sun.mail.util.MailSSLSocketFactory;
-import lombok.Data;
-import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import top.piao888.message.thrift.message.MessageService;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.security.GeneralSecurityException;
