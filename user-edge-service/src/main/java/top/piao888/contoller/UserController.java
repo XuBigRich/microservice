@@ -18,6 +18,7 @@ import java.security.MessageDigest;
 import java.util.Random;
 
 @Controller
+@RequestMapping("user")
 public class UserController {
     @Autowired
     private ServiceProvider serviceProvider;
@@ -83,10 +84,10 @@ public class UserController {
         if(!StringUtils.isBlank(mobile)){
             return Response.FUNCTION;
         }else{
-           String code= redisClient.get(email).toString();
+    /*       String code= redisClient.get(email).toString();
            if(!verifyCode.equals(code)){
                 return Response.VERIFY_COOD_INVALID;
-           }
+           }*/
         }
         UserInfo userInfo=new UserInfo();
         userInfo.setUsername(username);
@@ -107,7 +108,11 @@ public class UserController {
         BeanUtils.copyProperties(userInfo,userDTO);
         return userDTO;
     }
-
+    @RequestMapping(value="authentication",method = RequestMethod.POST)
+    @ResponseBody
+    public UserDTO authentication(@RequestHeader("token") String token){
+        return redisClient.get(token);
+    }
     private String getToken() {
         return randomCode("0123456789abcdefghigklmnopqrstuvwxyz",32);
     }
